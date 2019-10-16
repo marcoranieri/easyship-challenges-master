@@ -11,6 +11,7 @@ class Shipment < ApplicationRecord
     private_group_items
   end
 
+
   private
 
   def private_group_items(h=Hash.new(0))
