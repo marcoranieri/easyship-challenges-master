@@ -1,13 +1,23 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+puts "* Deleting *"
+
+puts "- ShipmentItem"
+ShipmentItem.destroy_all
+
+puts "- Shipment"
+Shipment.destroy_all
+
+puts "- Company"
+Company.destroy_all
+
+puts ""
+
 
 company = Company.create!(name: 'New Co')
+puts "* Creating Company *"
+puts "- \"#{company.name}\""
 
+
+puts "* Creating Shipments & ShipmentItems *"
 5.times do
   shipment = Shipment.create!(
     company_id: company.id,
@@ -18,10 +28,17 @@ company = Company.create!(name: 'New Co')
   )
 
   20.times do
-    shipment_item = ShipmentItem.create!(
+    ShipmentItem.create!(
       description: %w(iPhone iPad Watch iMac MacBook Mouse Keyboard).sample,
       weight: (1..5).to_a.sample,
       shipment_id: shipment.id
     )
   end
 end
+
+
+puts "* DONE *"
+puts ""
+puts "Tot. Companies: #{Company.count}"
+puts "Tot. Shipments: #{Shipment.count}"
+puts "Tot. ShipmentItems: #{ShipmentItem.count}"
