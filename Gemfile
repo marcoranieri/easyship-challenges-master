@@ -7,7 +7,7 @@ end
 
 
 gem 'rails', '~> 5.0.5'
-gem 'sqlite3'
+gem 'sqlite3', '~> 1.3.6'
 gem 'puma', '~> 3.0'
 gem 'jbuilder'
 
@@ -24,8 +24,8 @@ group :development do
 end
 
 group :test do
-  gem 'rspec'
-  gem 'rspec-rails'
+  gem 'rspec', '~> 3.9'
+  gem 'rspec-rails', '~> 3.9'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
