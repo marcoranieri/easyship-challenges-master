@@ -10,11 +10,14 @@ gem 'rails', '~> 5.0.5'
 gem 'sqlite3', '~> 1.3.6'
 gem 'puma', '~> 3.0'
 gem 'jbuilder'
+gem 'httparty', '~> 0.17.1'
 
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'faker'
   gem 'pry'
+  gem 'dotenv-rails'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -26,6 +29,7 @@ end
 group :test do
   gem 'rspec', '~> 3.9'
   gem 'rspec-rails', '~> 3.9'
+  gem 'shoulda-matchers'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
