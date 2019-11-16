@@ -1,6 +1,7 @@
 class ShipmentsController < ApplicationController
   def index
-    @shipments = Shipment.all
+    company_id = Company.custom_find_id(params[:company_id])
+    @shipments = Shipment.all_items(company_id)
   end
 
   def show

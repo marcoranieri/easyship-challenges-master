@@ -1,8 +1,8 @@
 class ApiTrackingInformation
-  require 'open-uri'
-  require 'pry'
+  require 'dotenv/load'
 
   def self.tracking_by(**args)
+
     begin
       if args[:id]
         api_url = "https://api.aftership.com/v4/trackings/#{args[:id]}"
@@ -10,20 +10,20 @@ class ApiTrackingInformation
         api_url = "https://api.aftership.com/v4/trackings/#{args[:slug]}/#{args[:tracking_number]}"
       end
 
-      serialized = open(
-        api_url,
-        "aftership-api-key" => "711623ab-a860-4d3a-84d1-bfa891ff5058",
-        "Content-Type" => "application/json"
-      ).read
+      response = HTTParty.get(api_url,
+        {
+         content_type: 'application/json',
+         authorization: 'Bearer ' + ENV['API_KEY']
+        }
+      )
+      result = JSON.parse(response.body)
 
-      result = JSON.parse(serialized)
-
-    rescue OpenURI::HTTPError => ex
-      puts "\n OpenURI::HTTPError (404 Not Found) \n\n"
+    rescue HTTParty::Error => e
+      puts 'HttParty::Error '+ e.message
       return {}
     end
 
-    if result && !result["data"]["tracking"]["checkpoints"].last.nil?
+    if response.success? && result["data"].key?("tracking")
       {
         "status"                  => result["data"]["tracking"]["tag"],
         "current_location"        => result["data"]["tracking"]["checkpoints"].last["location"],
@@ -31,7 +31,7 @@ class ApiTrackingInformation
         "last_checkpoint_time"    => Date.parse(result["data"]["tracking"]["checkpoints"].last["checkpoint_time"]).strftime("%A, %d %B %Y at %l %p"),
       }
     else
-      {}
+      return {}
     end
 
   end
